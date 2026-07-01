@@ -1,0 +1,6 @@
+2024-01-15 magnitud:4.5 profundidad:10km ubicacion:Mexicali 
+2024-01-16 magnitud:3.2 profundidad:5km  ubicacion:Tijuana
+2024-01-17 magnitud:6.1 profundidad:20km ubicacion:Ensenada
+2024-01-18 magnitud:2.8 profundidad:8km ubicacion:Mexicali
+2024-01-19 magnitud:5.3 profundidad:15km ubicacion:Tijuana
+2024-01-20 magnitud:4.1 profundidad:12km ubicacion:Ensenada

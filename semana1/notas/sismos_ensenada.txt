@@ -1,0 +1,2 @@
+2024-01-17 magnitud:6.1 profundidad:20km ubicacion:Ensenada
+2024-01-20 magnitud:4.1 profundidad:12km ubicacion:Ensenada
