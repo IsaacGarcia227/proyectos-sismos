@@ -6,4 +6,5 @@
 2024-01-20 magnitud:4.1 profundidad:12km ubicacion:Ensenada
 2024-01-22 magnitud:6.6 profundidad:11km ubicacion:Maneadero
 2024-01-23 magnitud:7.7 profundidad:10km ubicacion:Sauzal
+2024-01-24 magnitud:4.9 profundidad:14km ubicacion:Tecate
 
