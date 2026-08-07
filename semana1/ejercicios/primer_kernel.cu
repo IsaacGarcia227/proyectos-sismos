@@ -1,14 +1,14 @@
 #include <stdio.h>
 
 //kernel - corre en gpu
-__global__ void propagar(float *malla, float, int N) {
+__global__ void propagar(float *malla, float *nueva, int N) {
 
 	int i = blockIdx.x + 1;
-	int j = threadIdx.x + 1
+	int j = threadIdx.x + 1;
 
 	if (i < N-1 && j < N-1) {
-		nueva[i*N+j] = 0.25 (malla[(i+1) *N+j] + 
-				    malla[i-1)*N+j] +
+		nueva[i*N+j] = 0.25 *  (malla[(i+1) *N+j] + 
+				    malla[(i-1)*N+j] +
 				    malla[i*N+(j+1)] +
                                     malla[i*N+(j-1)]);
 
@@ -20,7 +20,7 @@ __global__ void propagar(float *malla, float, int N) {
 
 int main () {
 	int N = 9;
-	int size = N * N * sizeof(float)
+	int size = N * N * sizeof(float);
 
 	//memoria en CPU
 	float malla[81] = {0};
@@ -32,14 +32,14 @@ int main () {
 	//memoria en GPU
 	float *d_malla, *d_nueva;
 	cudaMalloc(&d_malla,size);
-	cudaMallac(&d_nueva, size);
+	cudaMalloc(&d_nueva, size);
 
 	//Copiar CPU -> GPU
 	cudaMemcpy(d_malla, malla, size,cudaMemcpyHostToDevice);
 	cudaMemcpy(d_nueva, nueva, size, cudaMemcpyHostToDevice);
 
 	//Lanzar Kernel
-	propagar<<<N-2>>>(d_malla, d_nueva, N);
+	propagar<<<N-2, N-2>>>(d_malla, d_nueva, N);
 
 	//copiar GPU -> CPU
 	cudaMemcpy(nueva, d_nueva, size, cudaMemcpyDeviceToHost);
