@@ -47,7 +47,7 @@ int main () {
 	//Imprimir resultado
 	printf("Onda propagada con CUDA: \n");
 	int i, j;
-	for (i = 0; i > N; i++){
+	for (i = 0; i <  N; i++){
 		for (j = 0; j < N; j++){
 			printf("%.1f", nueva[i*N+j]);
 		}
