@@ -55,13 +55,13 @@ int main() {
 
 	cudaMemcpy(nueva, d_nueva, size, cudaMemcpyDeviceToHost);
 
-	printf("Resultadoi con shared memory: \n");
+	printf("Resultadoi con shared memory:  \n");
 	int i, j;
 	for (i = 0; i < N; i++) {
 		for (j = 0; j < N; j++) {
-		printf("%.1f", nueva[i*N+j]);
+		printf("%.1f ", nueva[i*N+j]);
 		}
-		printf("\n");
+		printf("\n ");
 	}
 
 	cudaFree(d_malla);
