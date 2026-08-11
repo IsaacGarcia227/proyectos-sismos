@@ -6,7 +6,7 @@ __global__ void con_global(float *malla, float *nueva, int N){
 
 	if  (i < N-1 && j < N-1) {
 	// Lee directamente de memoria global - lento
-	nueva[i*N+j] = 0.25 * (malla[(i+1)*N+j]) +
+	nueva[i*N+j] = 0.25 * (malla[(i+1)*N+j] +
 				malla[(i-1)*N+j] +
 				malla[i*N+(j+1)] +
 				malla[i*N+(j-1)]);
@@ -23,9 +23,9 @@ __global__ void con_shared(float *malla, float *nueva, int N) {
 
 	//Cargar datos en shared memory
 	bloque[i][j] = malla[i*N+j];
-	__synchthreads();
+	__syncthreads();
 
-	if (i < N-11 && j < N-1) {
+	if (i < N-1 && j < N-1) {
 	//Lee de shared memory - rapido
 		nueva[i*N+j] = 0.25 * (bloque[i+1][j] +
 					bloque[i-1][j] +
@@ -37,7 +37,7 @@ __global__ void con_shared(float *malla, float *nueva, int N) {
 
 int main() {
 	int N = 9;
-	int size + N * N * sizeof(float);
+	int size = N * N * sizeof(float);
 	float malla[81] = {0};
 	float nueva[81] = {0};
 
@@ -47,7 +47,7 @@ int main() {
 	cudaMalloc(&d_nueva, size);
 
 	cudaMemcpy(d_malla, malla, size, cudaMemcpyHostToDevice);
-	cudaMemcpy(d_nueva, nueva, size, cudaMemcpyHosttoDevice);
+	cudaMemcpy(d_nueva, nueva, size, cudaMemcpyHostToDevice);
 
 
 	//Probar con shared memory
@@ -57,7 +57,7 @@ int main() {
 
 	printf("Resultadoi con shared memory: \n");
 	int i, j;
-	for (i = 0; i < N; j++) {
+	for (i = 0; i < N; i++) {
 		for (j = 0; j < N; j++) {
 		printf("%.1f", nueva[i*N+j]);
 		}
