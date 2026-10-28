@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <stdlib.h>
 // Macros to compute the x and z coordinates of grid nodes
+
+#pragma omp declare target
 #define XX(i) (XMIN + i*hx)
 #define ZZ(i) (ZMIN + i*hz)
 #define TT(i) (i*ht)
