@@ -181,6 +181,7 @@ b  = 1.0/rho(XX(ix),ZZ(iz)); 		// bouyancy
 	
 	printf("End of time-stepping loop.\n");
 
+#pragma omp taskwait
 delete[] vx;
 delete[] vz;
 delete[] sxx;
