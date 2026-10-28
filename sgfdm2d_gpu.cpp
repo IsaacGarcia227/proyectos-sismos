@@ -20,6 +20,7 @@
 //#define ZTOP(x) (ZMIN)
 
 // P-wave velocity
+#pragma omp declare target
 double alpha(double x, double z)
 {
 	if( z<ZTOP(x) )
@@ -62,6 +63,7 @@ double Source(double x, double z, double t)
 {
 	return Gauss(x,XSRC,XSW)*Gauss(z,ZSRC,ZSW)*Ricker(t);
 }
+#pragma omp end declare target
 
 // Wave propagation function
 void sgfd2d(int nx, int nz, int nt)
