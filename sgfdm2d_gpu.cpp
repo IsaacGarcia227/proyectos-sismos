@@ -21,7 +21,22 @@
 //#define ZTOP(x) (ZMIN)
 
 // P-wave velocity
+
 #pragma omp declare target
+const double XMIN_G = 0.0;
+const double XMAX_G = 1000.0;
+const double ZMIN_G = 0.0;
+const double ZMAX_G = 1000.0;
+const double PKFREQ_G = 50.0;
+const double XSRC_G = 500.0;
+const double ZSRC_G = 500.0;
+const double XSW_G = 10.0;
+const double ZSW_G = 10.0;
+const double VMAX_G = 2000.0;
+const double TMAX_G = 1.5;
+const double NSX_G = 0.0;
+const double NSZ_G = 1.0;
+
 double alpha(double x, double z)
 {
 	    if( z < ZMAX_G )
