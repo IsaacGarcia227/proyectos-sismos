@@ -3,7 +3,6 @@
  * 2D elastic wave propagation exercise
  * J.D. De Basabe (jonas@cicese.mx)
  */
-
 #include "macros.h"
 #include <math.h>
 #include <stdio.h>
@@ -11,13 +10,13 @@
 #include <stdlib.h>
 // Macros to compute the x and z coordinates of grid nodes
 
-#pragma omp declare target
-#define XX(i) (XMIN + i*hx)
-#define ZZ(i) (ZMIN + i*hz)
+
+#define XX(i) (XMIN_G + i*hx)
+#define ZZ(i) (ZMIN_G + i*hz)
 #define TT(i) (i*ht)
-#pragma omp end declare target
+
 //#define ZTOP(x) (0.5*(ZMIN+ZMAX))
-#define ZTOP(x) ZMAX
+#define ZTOP(x) ZMAX_G
 
 //#define ZTOP(x) (ZMIN)
 
@@ -25,15 +24,15 @@
 #pragma omp declare target
 double alpha(double x, double z)
 {
-	if( z<ZTOP(x) )
-		return 2000.0;
-	return 2000.0;
+	    if( z < ZMAX_G )
+        return 2000.0;
+    return 2000.0;
 }
 
 // S-wave velocity
 double beta(double x, double z)
 {
-	if( z<ZTOP(x) )
+	if(z < ZMAX_G)
 		return 0.0;
 	return 1000.0;
 }
@@ -41,7 +40,7 @@ double beta(double x, double z)
 // Density
 double rho(double x, double z)
 {
-	if( z<ZTOP(x) )
+	if( z < ZMAX_G )
 		return 1000.0;
 	return 2000.0;
 }
@@ -49,9 +48,9 @@ double rho(double x, double z)
 // Ricker wavelet
 double Ricker(double t)
 {
-	double t0 = 0.78/PKFREQ;
-	return -2.0*sqr(M_PI*PKFREQ)*(1.0-2.0*sqr(M_PI*PKFREQ*(t-t0)))
-		*exp( -sqr(M_PI*PKFREQ*(t-t0)) );
+	double t0 = 0.78/PKFREQ_G;
+	return -2.0*sqr(M_PI*PKFREQ_G)*(1.0-2.0*sqr(M_PI*PKFREQ_G*(t-t0)))
+		*exp( -sqr(M_PI*PKFREQ_G*(t-t0)) );
 }
 
 // Gaussian distribution
@@ -63,7 +62,7 @@ double Gauss(double t, double mn, double sd)
 // Source
 double Source(double x, double z, double t)
 {
-	return Gauss(x,XSRC,XSW)*Gauss(z,ZSRC,ZSW)*Ricker(t);
+	return Gauss(x,XSRC_G,XSW_G)*Gauss(z,ZSRC_G,ZSW_G)*Ricker(t);
 }
 #pragma omp end declare target
 
