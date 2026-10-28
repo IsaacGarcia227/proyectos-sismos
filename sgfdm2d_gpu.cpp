@@ -166,16 +166,17 @@ b  = 1.0/rho(XX(ix),ZZ(iz)); 		// bouyancy
 		// Save snapshots
 		if( it%SAVEINT == 0 || it==nt)
 		{
-			sprintf(fnsnapshot,"./OUTPUT/ux%.8i.bin",it);
-			FILE *fp = fopen(fnsnapshot, "wb");
-                        fwrite(vx, sizeof(double), n, fp);
-                        fclose(fp);
-	 		printf("t = %8.4g, BIN file: %s\n", it*ht, fnsnapshot);
-			sprintf(fnsnapshot,"./OUTPUT/uz%.8i.bin",it);
-			FILE *fp2 = fopen(fnsnapshot, "wb");
-                        fwrite(vz, sizeof(double), n, fp2);
-                        fclose(fp2);
-			printf("t = %8.4g, BIN file: %s\n", it*ht, fnsnapshot);
+		   #pragma omp target update from(vx[0:n], vz[0:n])
+   			 sprintf(fnsnapshot,"./OUTPUT/ux%.8i.bin",it);
+   			 FILE *fp = fopen(fnsnapshot, "wb");
+		         fwrite(vx, sizeof(double), n, fp);
+			 fclose(fp);
+			 printf("t = %8.4g, BIN file: %s\n", it*ht, fnsnapshot);
+    			 sprintf(fnsnapshot,"./OUTPUT/uz%.8i.bin",it);
+                         FILE *fp2 = fopen(fnsnapshot, "wb");
+                         fwrite(vz, sizeof(double), n, fp2);
+                         fclose(fp2);
+                         printf("t = %8.4g, BIN file: %s\n", it*ht, fnsnapshot);
 		}
 	} // end target data
 	
