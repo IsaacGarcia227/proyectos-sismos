@@ -15,7 +15,7 @@
 #define XX(i) (XMIN + i*hx)
 #define ZZ(i) (ZMIN + i*hz)
 #define TT(i) (i*ht)
-
+#pragma omp end declare target
 //#define ZTOP(x) (0.5*(ZMIN+ZMAX))
 #define ZTOP(x) ZMAX
 
