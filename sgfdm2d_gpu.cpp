@@ -11,35 +11,22 @@
 // Macros to compute the x and z coordinates of grid nodes
 
 
-#define XX(i) (XMIN_G + i*hx)
-#define ZZ(i) (ZMIN_G + i*hz)
+#define XX(i) (XMIN + i*hx)
+#define ZZ(i) (ZMIN + i*hz)
 #define TT(i) (i*ht)
 
 //#define ZTOP(x) (0.5*(ZMIN+ZMAX))
-#define ZTOP(x) ZMAX_G
+#define ZTOP(x) ZMAX
 
 //#define ZTOP(x) (ZMIN)
 
 // P-wave velocity
 
 #pragma omp declare target
-const double XMIN_G = 0.0;
-const double XMAX_G = 1000.0;
-const double ZMIN_G = 0.0;
-const double ZMAX_G = 1000.0;
-const double PKFREQ_G = 50.0;
-const double XSRC_G = 500.0;
-const double ZSRC_G = 500.0;
-const double XSW_G = 10.0;
-const double ZSW_G = 10.0;
-const double VMAX_G = 2000.0;
-const double TMAX_G = 1.5;
-const double NSX_G = 0.0;
-const double NSZ_G = 1.0;
 
 double alpha(double x, double z)
 {
-	    if( z < ZMAX_G )
+	    if( z < ZMAX )
         return 2000.0;
     return 2000.0;
 }
@@ -47,7 +34,7 @@ double alpha(double x, double z)
 // S-wave velocity
 double beta(double x, double z)
 {
-	if(z < ZMAX_G)
+	if(z < ZMAX)
 		return 0.0;
 	return 1000.0;
 }
@@ -55,7 +42,7 @@ double beta(double x, double z)
 // Density
 double rho(double x, double z)
 {
-	if( z < ZMAX_G )
+	if( z < ZMAX )
 		return 1000.0;
 	return 2000.0;
 }
@@ -63,9 +50,9 @@ double rho(double x, double z)
 // Ricker wavelet
 double Ricker(double t)
 {
-	double t0 = 0.78/PKFREQ_G;
-	return -2.0*sqr(M_PI*PKFREQ_G)*(1.0-2.0*sqr(M_PI*PKFREQ_G*(t-t0)))
-		*exp( -sqr(M_PI*PKFREQ_G*(t-t0)) );
+	double t0 = 0.78/PKFREQ;
+	return -2.0*sqr(M_PI*PKFREQ)*(1.0-2.0*sqr(M_PI*PKFREQ*(t-t0)))
+		*exp( -sqr(M_PI*PKFREQ*(t-t0)) );
 }
 
 // Gaussian distribution
@@ -77,7 +64,7 @@ double Gauss(double t, double mn, double sd)
 // Source
 double Source(double x, double z, double t)
 {
-	return Gauss(x,XSRC_G,XSW_G)*Gauss(z,ZSRC_G,ZSW_G)*Ricker(t);
+	return Gauss(x,XSRC,XSW)*Gauss(z,ZSRC,ZSW)*Ricker(t);
 }
 #pragma omp end declare target
 
@@ -182,7 +169,6 @@ b  = 1.0/rho(XX(ix),ZZ(iz)); 		// bouyancy
 	
 	printf("End of time-stepping loop.\n");
 
-#pragma omp taskwait
 delete[] vx;
 delete[] vz;
 delete[] sxx;
