@@ -178,7 +178,7 @@ b  = 1.0/rho(XX(ix),ZZ(iz)); 		// bouyancy
                          fclose(fp2);
                          printf("t = %8.4g, BIN file: %s\n", it*ht, fnsnapshot);
 		}
-	} // end target data
+	}} // end target data
 	
 	printf("End of time-stepping loop.\n");
 
@@ -189,4 +189,4 @@ delete[] sxx;
 delete[] szz;
 delete[] sxz;
 }
-}
+
